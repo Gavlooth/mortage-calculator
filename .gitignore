@@ -1,0 +1,10 @@
+/node_modules
+/target
+/resources/test
+/resources/public/js
+/resources/public/css/style.css
+/.cpcache
+.shadow-cljs
+.nrepl-port
+.DS_Store
+/package-lock.json

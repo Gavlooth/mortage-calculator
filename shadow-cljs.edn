@@ -1,0 +1,18 @@
+{
+ :lein  true
+
+ :builds {:app {:target     :browser
+                :output-dir "resources/public/js"
+                :asset-path "/js"
+
+                :compiler-options
+                {:infer-externs    :auto
+                 :closure-warnings {:global-this :off}}
+
+                :modules
+                {:main {:entries [mortage-calculator.app]}}
+                :devtools
+                {;:after-load  mortage-calculator.core/start
+                 :http-root   "resources/public"
+                 :http-port   21222}}}}
+

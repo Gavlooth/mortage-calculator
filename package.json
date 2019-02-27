@@ -1,0 +1,24 @@
+{
+  "name": "ken",
+  "version": "0.0.1",
+  "description": "",
+  "repository": "",
+  "scripts": {
+    "dev": "shadow-cljs -A:dev watch app && node-sass --output-style compressed resources/public/css/style.scss resources/public/css/style.css ",
+    "repl": "shadow-cljs -A:dev cljs-repl app && node-sass --output-style compressed resources/public/css/style.scss resources/public/css/style.css ",
+    "stop": "shadow-cljs stop",
+    "clean": "rm -rf resources/public/js;"
+  },
+  "devDependencies": {
+    "node-sass": "^4.10.0",
+    "shadow-cljs": "^2.4.11"
+  },
+  "dependencies": {
+    "bulma": "^0.7.4",
+    "chartist": "^0.11.0",
+    "create-react-class": "^15.6.3",
+    "react": "^16.8.3",
+    "react-chartist": "^0.13.3",
+    "react-dom": "^16.8.3"
+  }
+}
