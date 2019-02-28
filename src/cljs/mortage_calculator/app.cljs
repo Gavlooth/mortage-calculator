@@ -8,6 +8,7 @@
 (defn app []
  (let [mortages  @(rf/subscribe [::subs/mortage-list])
        selected-mortage @(rf/subscribe [::subs/selected-mortage])]
+   (println mortages)
    [:<>
     [views/navbar]
     [views/instructions]

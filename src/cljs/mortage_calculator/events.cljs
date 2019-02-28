@@ -16,12 +16,17 @@
 (rf/reg-event-fx
  ::add-entry
  (fn [{:keys [db] :as cofx} [_ {:keys [entry-name] :as entry}]]
-   (println entry)
    (let [entry* (dissoc entry entry-name)
-         new-db (update-in db [:user :mortages] assoc entry-name entry*)]
+         new-db (update-in db [:user :mortages] assoc (first entry-name  )  entry*)]
     {:db  new-db
      :write-localStorage  (clj->js new-db)})))
 
+
+
+(rf/reg-event-fx
+ ::clear-store
+ (fn [db _] {:db nil
+             :write-localStorage  nil}))
 
 (rf/reg-cofx
   :read-localStorage
