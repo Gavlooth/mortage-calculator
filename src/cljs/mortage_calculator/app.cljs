@@ -9,7 +9,8 @@
   (r/render
    [:<>
     [views/navbar]
-    [views/instructions]]
+    [views/instructions]
+    [views/calculator]]
    (gdom/getElement "app")))
 
 
