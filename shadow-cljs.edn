@@ -10,9 +10,9 @@
                  :closure-warnings {:global-this :off}}
 
                 :modules
-                {:main {:entries [mortage-calculator.app]}}
+                {:main {:entries [mortgage-calculator.app]}}
                 :devtools
-                {;:after-load  mortage-calculator.core/start
+                {;:after-load  mortgage-calculator.core/start
                  :http-root   "resources/public"
                  :http-port   21222}}}}
 
