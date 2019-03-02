@@ -8,7 +8,6 @@
      (:mortgages (:user  db))))
 
 
-
 (rf/reg-sub
   ::selected-mortgage
     (fn [db _]
@@ -21,13 +20,10 @@
   :<- [::mortgage-list]
   (fn [[x y] _]
    (when (and x y)
-     (println x)
-     (println y)
-     (let [{:keys [deposit-paid  principal-of-loan  interest-rate]} (get y x)
-           monthly-frm (u/monthly-FRM  principal-of-loan  interest-rate deposit-paid)
-           remaining-loan (-  principal-of-loan deposit-paid)]
-       (let [yearly-frm (* monthly-frm 12)]
-        (vector monthly-frm (for [i (range 1 5)]
-                             (let [frm (* i yearly-frm)
-                                   portion-paid (/ frm remaining-loan)]
-                               [portion-paid  (- 1 portion-paid)]))))))))
+     (let [{:keys [deposit-paid  principal-of-loan interest-rate]} (get y x)
+           r (/ interest-rate 100)
+           p (- principal-of-loan deposit-paid)
+           c (u/monthly-payment r (* 12 5) p)]
+       [c (vec (for [i (range 1 5)]
+                 [(* i 12 c) (u/monthly-remainder r (* i 12) p c)]))]))))
+

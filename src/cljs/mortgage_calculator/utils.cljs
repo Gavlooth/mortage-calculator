@@ -35,14 +35,15 @@
    (catch js/Object e (.log js/console"Error: " e  {:color "red"})))))
 
 
-(defn monthly-FRM
-  ([principal-amount interest-rate]
-   (monthly-FRM  principal-amount interest-rate 0))
-  ([principal-amount interest-rate deposit-paid]
-   (let [loan-left (- principal-amount deposit-paid)]
-     (cond (zero? interest-rate)(/ loan-left 60)
-           (pos? interest-rate) (/ loan-left (- 1 (Math/pow (inc (* interest-rate  100)) -60)))
-           :default 0))))
+(defn monthly-payment [r n p]
+ (if (zero? r)
+     (/ p n)
+    (let [x (Math/pow (inc r) n)]
+     (/ (* r p x)
+        (dec x)))))
 
+(defn monthly-remainder [r n p c]
+  (let [x (Math/pow (inc r) n)]
+    (- (* p x) (* (/ (dec x) r) c))))
 
 

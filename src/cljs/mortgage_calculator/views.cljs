@@ -7,7 +7,6 @@
             [goog.json :as gjson]))
 
 
-;var json = goog.json.serialize(goog.dom.forms.getFormDataMap(form).toObject());
 (defn navbar []
  [:nav.navbar
   {:aria-label "main navigation", :role "navigation"}

@@ -9,7 +9,8 @@
                  [org.clojure/clojure "1.10.0"]
                  [org.clojure/tools.namespace "0.2.11"]
                  [aero "1.1.3"]
-                ;; back end
+                 [com.cognitect/transit-cljs "LATEST"]
+                 ;; back end
                  [ring/ring-jetty-adapter "1.7.1"]
                  [metosin/reitit "0.2.13"]
                  [mount "0.1.16"]
