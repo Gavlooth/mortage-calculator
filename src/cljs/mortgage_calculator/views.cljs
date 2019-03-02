@@ -123,10 +123,10 @@
 (defn mortgage-bar-chart [series]
    [:section.section
     [:div.container
-     [:h1.title "Section"]
+     [:h1.title "Loan Chart"]
      [:h2.subtitle
-      " A simple container to divide your page into "
-      [:strong "sections"]
-      ", like the one you're currently reading"]
+      " A simple Bar Chart showing the remaining "
+      [:strong "loan"]
+      ", for each year"]
      [charts/mortgage-chart series]]])
 

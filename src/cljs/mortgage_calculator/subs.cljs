@@ -45,7 +45,8 @@
             r (/ interest-rate 100)
             p (- principal-of-loan deposit-paid)
             c (u/monthly-payment r (* 12 5) p)]
-       (into-array
-         (for [i (range 1 5)]
-          (int (u/monthly-remainder r (* i 12) p c))))))))
+       (array
+         (into-array
+          (for [i (range 1 5)]
+           (int (u/monthly-remainder r (* i 12) p c)))))))))
 
