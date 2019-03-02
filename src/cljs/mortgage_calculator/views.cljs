@@ -52,8 +52,10 @@
       [:div.column.is-3 [:button.button.is-primary.is-size-7 {:on-click #(rf/dispatch [::events/clear-store])} "CLEAR ALL"]]]
      (for [[[x1 _]  [ x2 _] ] (partition-all 2 (seq mortgage-list))]
       [:div.columns.is-mobile {:key (str x1 '+ x2)}
-       [:div.column.is-half.has-text-centered [:a  x1]]
-       [:div.column.is-half.has-text-centered [:a  x2]]])])
+       [:div.column.is-half.has-text-centered
+        [:a {:on-click #(rf/dispatch [::events/select-mortgage x1])} x1]]
+       [:div.column.is-half.has-text-centered
+        [:a {:on-click #(rf/dispatch [::events/select-mortgage x2])} x2]]])])
 
 
 
@@ -108,13 +110,15 @@
 (defn mortgage-information [[monthly-payment  a-list]]
   [:section.section
    [:div.columns
-    [:div.column.is-2
-     [:div.is-size-5 "Monthly payment " monthly-payment]
+    [:div.column.is-2]
+
+    [:div.column.is-4
+     [:div.is-size-5.has-text-centered "Monthly payment " (/ (int (* 100  monthly-payment)) 100)]
      [:table.table.is-bordered.is-striped.is-narrow.is-hoverable.is-fullwidth
-      [:thead [:tr [:th "Percentage Paid"] [:th "Percentage Remaining"]]]
+      [:thead [:tr [:th.has-text-centered  "Percentage Paid"] [:th.has-text-centered  "Percentage Remaining"]]]
       [:tbody
        (for [[paid remaining] a-list]
-         [:tr {:key (random-uuid)} [:td paid] [:td remaining]])]]]]])
+         [:tr {:key (str paid "+" remaining ) } [:td.has-text-centered   (int paid) " %"] [:td.has-text-centered  (int remaining) " %"]])]]]]])
 
 (defn mortgage-bar-chart[]
    [:section.section

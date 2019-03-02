@@ -23,7 +23,9 @@
      (let [{:keys [deposit-paid  principal-of-loan interest-rate]} (get y x)
            r (/ interest-rate 100)
            p (- principal-of-loan deposit-paid)
-           c (u/monthly-payment r (* 12 5) p)]
+           c (u/monthly-payment r (* 12 5) p)
+           total (reduce + (repeat 60 c))]
+       (println "five year " total)
        [c (vec (for [i (range 1 5)]
-                 [(* i 12 c) (u/monthly-remainder r (* i 12) p c)]))]))))
+                 [ (* 100 (/ (* i 12 c) total ) )   (* 100 (/ (u/monthly-remainder r (* i 12) p c) total))]))]))))
 
