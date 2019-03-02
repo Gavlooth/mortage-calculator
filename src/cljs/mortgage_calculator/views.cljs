@@ -4,8 +4,8 @@
             [mortgage-calculator.events :as events]
             [mortgage-calculator.utils :as u]
             [goog.dom :as gdom]
-            [goog.json :as gjson]))
-
+            [goog.json :as gjson]
+            [mortgage-calculator.charts :as charts]))
 
 (defn navbar []
  [:nav.navbar
@@ -120,13 +120,13 @@
        (for [[paid remaining] a-list]
          [:tr {:key (str paid "+" remaining ) } [:td.has-text-centered   (int paid) " %"] [:td.has-text-centered  (int remaining) " %"]])]]]]])
 
-(defn mortgage-bar-chart[]
+(defn mortgage-bar-chart [series]
    [:section.section
     [:div.container
      [:h1.title "Section"]
      [:h2.subtitle
       " A simple container to divide your page into "
       [:strong "sections"]
-      ", like the one you're currently reading"]]])
-
+      ", like the one you're currently reading"]
+     [charts/mortgage-chart series]]])
 
