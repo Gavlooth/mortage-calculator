@@ -12,15 +12,15 @@
  [:nav.navbar
   {:aria-label "main navigation", :role "navigation"}
   [:div.navbar-brand
-   [:span.navbar-item {:href "https://www.lifecheq.co.za/"}
+   [:span.navbar-item {:href "#"}
     [:img { :width "128"
-           :alt "lifeCheq"
-           :src "/images/lifecheq.svg"}]]
+           :alt "Mortgage calculator"
+           :src "/images/mortgage.svg"}]]
    [:div.columns.is-vcentered
-    [:span.is-size-2.has-text-centered "lifeCheq"]]
+    [:span.is-size-2.has-text-centered "Mortgage calculator"]]
    [:a.navbar-burger
     {:aria-expanded "false", :aria-label "menu", :role "button"}
-    [:span  "lifeCheq"]   {:aria-hidden "false"}
+    [:span  "Mortgage calculator"]   {:aria-hidden "false"}
     [:span {:aria-hidden "true"}]
     [:span {:aria-hidden "true"}]]]])
 
@@ -47,17 +47,20 @@
 
 
 (defn list-of-mortgages [mortgage-list]
-    [:div.column.is-2
+    [:div.column.is-3
      [:br]
      [:div.columns
       [:div.column.is-12.has-text-centered.is-size-4 [:span "Saved mortgages"]]
       [:div.column.is-3 [:button.button.is-primary.is-size-7 {:on-click #(rf/dispatch [::events/clear-store])} "CLEAR ALL"]]]
-     (for [[[x1 _]  [ x2 _] ] (partition-all 2 (seq mortgage-list))]
-      [:div.columns.is-mobile {:key (str x1 '+ x2)}
-       [:div.column.is-half.has-text-centered
-        [:a {:on-click #(rf/dispatch [::events/select-mortgage x1])} x1]]
-       [:div.column.is-half.has-text-centered
-        [:a {:on-click #(rf/dispatch [::events/select-mortgage x2])} x2]]])])
+     [:div.tags
+      (for [[x1 _]  (seq mortgage-list)]
+       [:div.tag
+        [:div.tags.has-addons
+         [:span.tag {:key (str x1 '+supercalifragilisticexpialidocious)
+                     :on-click #(rf/dispatch [::events/select-mortgage x1])
+                     :style {:cursor :pointer}} x1]
+         [:span.tag.is-delete {:on-click #(rf/dispatch [::events/remove-entry x1])}]]])
+      [:div]]])
 
 
 (defn mortage-variable-field [field-label field-key pattern]
@@ -102,12 +105,16 @@
    [:div.columns
     [:div.column.is-2]
     [:div.column.is-4
-     [:div.is-size-5.has-text-centered "Monthly payment " (/ (int (* 100  monthly-payment)) 100)]
+     [:div.is-size-5.has-text-centered
+      "Monthly payment " (/ (int (* 100  monthly-payment)) 100)]
      [:table.table.is-bordered.is-striped.is-narrow.is-hoverable.is-fullwidth
-      [:thead [:tr [:th.has-text-centered  "Percentage Paid"] [:th.has-text-centered  "Percentage Remaining"]]]
+      [:thead [:tr [:th.has-text-centered  "Percentage Paid"]
+               [:th.has-text-centered  "Percentage Remaining"]]]
       [:tbody
        (for [[paid remaining] a-list]
-         [:tr {:key (str paid "+" remaining ) } [:td.has-text-centered   (int paid) " %"] [:td.has-text-centered  (int remaining) " %"]])]]]]])
+         [:tr {:key (str paid "+" remaining)}
+          [:td.has-text-centered   (int paid) " %"]
+          [:td.has-text-centered  (int remaining) " %"]])]]]]])
 
 
 (defn mortgage-bar-chart [series]

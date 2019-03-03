@@ -31,6 +31,15 @@
       :write-localStorage new-db})))
 
 
+
+(rf/reg-event-fx
+  ::remove-entry
+  (fn [{:keys [db] :as cofx} [_ entry]]
+    (let [new-db  (update-in (dissoc db :selected-mortgage) [:user :mortgages] dissoc entry)]
+      {:db new-db
+       :write-localStorage new-db})))
+
+
 (rf/reg-event-fx
  ::clear-store
  (fn [db _]
