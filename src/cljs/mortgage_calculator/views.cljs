@@ -7,6 +7,7 @@
             [goog.json :as gjson]
             [mortgage-calculator.charts :as charts]))
 
+
 (defn navbar []
  [:nav.navbar
   {:aria-label "main navigation", :role "navigation"}
@@ -38,6 +39,7 @@
                      :keywordize-keys true)]
    (into {} (map (fn [[x [y]]] (vector x y)) (seq form)))))
 
+
 (defn- submit-fn [event]
   (.preventDefault event)
   (let [this-form (u/oget  event 'target)]
@@ -58,9 +60,21 @@
         [:a {:on-click #(rf/dispatch [::events/select-mortgage x2])} x2]]])])
 
 
+(defn mortage-variable-field [field-label field-key pattern]
+     [:div.columns.is-mobile.has-background-grey-lighter   {:key (str field-label '+ field-key)}
+      [:div.column.is-half.has-text-centered [:span field-label]]
+      [:div.column.is-half
+       [:div.field
+        [:div.control
+         [:input.input.is-primary.is-medium.is-size-6
+          {:name  field-key
+           :pattern pattern}]]]]])
+
 
 (defn calculator [selected-mortgage mortgage-list]
- (let [pattern "(\\d+\\.?)?\\d+"]
+ (let [pattern "(\\d+\\.?)?\\d+"
+       field-titles ["Loan's principal" "Deposit paid" "Interest rate %"]
+       field-keys [ :principal-of-loan :deposit-paid :interest-rate]]
   [:section.section
    [:div.columns
     [:div.column.is-2]
@@ -69,31 +83,7 @@
      [:div.columns
       [:div.column.is-12.has-text-centered.is-size-4
        [:span "Mortgage Calculator"] [:span]]]
-     [:div.columns.is-mobile.has-background-grey-lighter
-      [:div.column.is-half.has-text-centered [:span "Loan's principal"]]
-      [:div.column.is-half
-       [:div.field
-        [:div.control
-         [:input.input.is-primary.is-medium.is-size-6
-          {:name :principal-of-loan
-           :pattern pattern}]]]]]
-     [:div.columns.is-mobile.has-background-grey-lighter
-      [:div.column.is-half.has-text-centered [:span "Deposit paid"]]
-      [:div.column.is-half
-       [:div.field
-        [:div.control
-         [:input.input.is-primary.is-medium.is-size-6
-          {:name :deposit-paid :pattern pattern}]]]]]
-     [:div.columns.is-mobile.has-background-grey-lighter
-      [:div.column.is-half.has-text-centered
-       [:span "Interest rate %"]]
-      [:div.column.is-half
-       [:div.field
-        [:div.control
-         [:div [:input.input.is-primary.is-medium.is-size-6
-                 {:name :interest-rate :pattern pattern}]]]]]
-
-      [:div.column.is-1]]
+     (map mortage-variable-field  field-titles field-keys (repeat pattern))
      [:div.columns.is-mobile
       [:div.column.is-3
         [:input.button.is-primary.is-size-7
@@ -111,7 +101,6 @@
   [:section.section
    [:div.columns
     [:div.column.is-2]
-
     [:div.column.is-4
      [:div.is-size-5.has-text-centered "Monthly payment " (/ (int (* 100  monthly-payment)) 100)]
      [:table.table.is-bordered.is-striped.is-narrow.is-hoverable.is-fullwidth
@@ -119,6 +108,7 @@
       [:tbody
        (for [[paid remaining] a-list]
          [:tr {:key (str paid "+" remaining ) } [:td.has-text-centered   (int paid) " %"] [:td.has-text-centered  (int remaining) " %"]])]]]]])
+
 
 (defn mortgage-bar-chart [series]
    [:section.section
@@ -129,4 +119,3 @@
       [:strong "loan"]
       ", for each year"]
      [charts/mortgage-chart series]]])
-

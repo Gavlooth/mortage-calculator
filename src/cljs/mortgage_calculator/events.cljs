@@ -13,7 +13,6 @@
   (fn [cofx _]
     (let [stored-db (:local-store cofx)
           db  (:db cofx)]
-      (println "db " stored-db)
       {:db stored-db})))
 
 
